@@ -63,7 +63,18 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            const Text('Select an answer:'),
+            ...question.options.map(
+              (option) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(option),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
