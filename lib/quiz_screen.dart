@@ -31,6 +31,25 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  void _handleAnswer(String selected) {
+    if (_answered) return;
+    setState(() {
+      _answered = true;
+      _selectedAnswer = selected;
+      if (selected == _questions[_currentQuestionIndex].correctAnswer) {
+        _score++;
+      }
+    });
+  }
+
+  void _nextQuestion() {
+    setState(() {
+      _currentQuestionIndex++;
+      _answered = false;
+      _selectedAnswer = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_questions.isEmpty) {
@@ -69,12 +88,22 @@ class _QuizScreenState extends State<QuizScreen> {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: _answered ? null : () => _handleAnswer(option),
                     child: Text(option),
                   ),
                 ),
               ),
             ),
+            if (_answered) ...[
+              const SizedBox(height: 12),
+              Text('Score: $_score'),
+              const SizedBox(height: 8),
+              if (_currentQuestionIndex < _questions.length - 1)
+                ElevatedButton(
+                  onPressed: _nextQuestion,
+                  child: const Text('Next'),
+                ),
+            ],
           ],
         ),
       ),
