@@ -33,11 +33,40 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_questions.isEmpty) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final question = _questions[_currentQuestionIndex];
+
     return Scaffold(
       appBar: AppBar(title: const Text('Trivia Quiz')),
-      body: _questions.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : const Center(child: Text('Questions loaded!')),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Question ${_currentQuestionIndex + 1} of ${_questions.length}',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  question.question,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text('Select an answer:'),
+          ],
+        ),
+      ),
     );
   }
 }
