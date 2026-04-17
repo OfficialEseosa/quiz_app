@@ -166,18 +166,34 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            ...question.options.map(
-              (option) => Padding(
+            ...question.options.map((option) {
+              Color? bgColor;
+              if (_answered) {
+                if (option == question.correctAnswer) {
+                  bgColor = Colors.green.shade600;
+                } else if (option == _selectedAnswer) {
+                  bgColor = Colors.red.shade600;
+                }
+              }
+              return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: _answered ? null : () => _handleAnswer(option),
+                    style: bgColor != null
+                        ? ElevatedButton.styleFrom(
+                            backgroundColor: bgColor,
+                            disabledBackgroundColor: bgColor,
+                            foregroundColor: Colors.white,
+                            disabledForegroundColor: Colors.white,
+                          )
+                        : null,
                     child: Text(option),
                   ),
                 ),
-              ),
-            ),
+              );
+            }),
             if (_answered) ...[
               const SizedBox(height: 12),
               Text('Score: $_score'),
