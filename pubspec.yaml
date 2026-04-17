@@ -38,6 +38,9 @@ dependencies:
   # HTTP client for making API requests
   http: ^1.0.0
 
+  # Decode HTML entities returned by the trivia API (e.g. &quot; &#039;)
+  html_unescape: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
