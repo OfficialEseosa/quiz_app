@@ -145,7 +145,20 @@ class _QuizScreenState extends State<QuizScreen> {
     final question = _questions[_currentQuestionIndex];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Trivia Quiz')),
+      appBar: AppBar(
+        title: const Text('Trivia Quiz'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Center(
+              child: Text(
+                'Score: $_score  |  ${_currentQuestionIndex + 1}/${_questions.length}',
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
