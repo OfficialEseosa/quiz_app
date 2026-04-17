@@ -17,6 +17,8 @@ class _QuizScreenState extends State<QuizScreen> {
   int _score = 0;
   bool _answered = false;
   String? _selectedAnswer;
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -25,10 +27,22 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Future<void> _loadQuestions() async {
-    final questions = await _apiService.fetchQuestions();
     setState(() {
-      _questions = questions;
+      _isLoading = true;
+      _errorMessage = null;
     });
+    try {
+      final questions = await _apiService.fetchQuestions();
+      setState(() {
+        _questions = questions;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Could not load questions. Check your connection.';
+        _isLoading = false;
+      });
+    }
   }
 
   void _handleAnswer(String selected) {
@@ -52,9 +66,44 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_questions.isEmpty) {
+    if (_isLoading) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('Loading questions...'),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (_errorMessage != null) {
+      return Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.wifi_off, size: 48, color: Colors.grey),
+                const SizedBox(height: 16),
+                Text(_errorMessage!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16)),
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
+                  onPressed: _loadQuestions,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Retry'),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     }
 
