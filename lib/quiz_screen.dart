@@ -57,11 +57,17 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _nextQuestion() {
-    setState(() {
-      _currentQuestionIndex++;
-      _answered = false;
-      _selectedAnswer = null;
-    });
+    if (_currentQuestionIndex < _questions.length - 1) {
+      setState(() {
+        _currentQuestionIndex++;
+        _answered = false;
+        _selectedAnswer = null;
+      });
+    } else {
+      setState(() {
+        _currentQuestionIndex = _questions.length;
+      });
+    }
   }
 
   @override
@@ -75,6 +81,35 @@ class _QuizScreenState extends State<QuizScreen> {
               CircularProgressIndicator(),
               SizedBox(height: 16),
               Text('Loading questions...'),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (_currentQuestionIndex >= _questions.length) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Results')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.emoji_events, size: 64, color: Colors.amber),
+              const SizedBox(height: 16),
+              const Text(
+                'Quiz Complete!',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                '$_score / ${_questions.length}',
+                style: const TextStyle(fontSize: 48, fontWeight: FontWeight.w900),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Play Again'),
+              ),
             ],
           ),
         ),
