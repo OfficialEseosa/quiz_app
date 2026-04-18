@@ -14,7 +14,10 @@ class QuizApp extends StatelessWidget {
       title: 'Trivia Quiz',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1A237E),
+          brightness: Brightness.dark,
+        ),
         useMaterial3: true,
       ),
       home: const QuizScreen(),
