@@ -56,6 +56,17 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  void _restartQuiz() {
+    setState(() {
+      _currentQuestionIndex = 0;
+      _score = 0;
+      _answered = false;
+      _selectedAnswer = null;
+      _questions = [];
+    });
+    _loadQuestions();
+  }
+
   void _nextQuestion() {
     if (_currentQuestionIndex < _questions.length - 1) {
       setState(() {
@@ -106,9 +117,10 @@ class _QuizScreenState extends State<QuizScreen> {
                 style: const TextStyle(fontSize: 48, fontWeight: FontWeight.w900),
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Play Again'),
+              ElevatedButton.icon(
+                onPressed: _restartQuiz,
+                icon: const Icon(Icons.replay),
+                label: const Text('Play Again'),
               ),
             ],
           ),
