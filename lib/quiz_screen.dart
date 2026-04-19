@@ -247,7 +247,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
             const SizedBox(height: 20),
             Card(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16)),
               child: Padding(
@@ -262,7 +262,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
             const SizedBox(height: 20),
             ...question.options.map((option) {
-              Color bgColor = Colors.white.withOpacity(0.15);
+              Color bgColor = Colors.white.withValues(alpha: 0.15);
               Color fgColor = Colors.white;
               if (_answered) {
                 if (option == question.correctAnswer) {
